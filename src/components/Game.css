@@ -1,0 +1,58 @@
+/* Game.css */
+
+.card-container {
+    perspective: 1000px;
+  }
+  
+  .card {
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+  
+  .card.flipped {
+    transform: rotateY(180deg);
+  }
+  
+
+  @keyframes rotateAnimation {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  .animated-rotate {
+    animation: rotateAnimation 1s ease-in-out infinite;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+      transform: translatey(30%);
+    }
+  }
+  
+  .animated-slide-in-left {
+    animation: slideInLeft 0.5s ease-out;
+  }
+
+  .animated-slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+  }
