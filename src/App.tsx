@@ -128,18 +128,18 @@ const App: React.FC = () => {
       case "instructions":
         return (
           <div className="w-full h-full">
-            <button onClick={() => setScreen("play")}>
+            <button className="absolute bottom-10 right-10 hover:scale-110 transition" onClick={() => setScreen("play")}>
               <img
                 src={playButton}
                 alt="start"
-                className="absolute bottom-10 right-10 hover:scale-110 transition"
+                className=""
               />
             </button>
-            <button onClick={() => setScreen("mizoIntro")}>
+            <button className="absolute top-10 left-10 hover:scale-110 transition" onClick={() => setScreen("mizoIntro")}>
               <img
                 src={backButton}
                 alt="start"
-                className="absolute top-10 left-10 hover:scale-110 transition"
+                
               />
             </button>
             <Instructions />

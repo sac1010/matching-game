@@ -4,11 +4,17 @@ import redCard from "../images/red-card.svg";
 import blueCard from "../images/blue-card.svg";
 import match from "../images/matched.svg";
 import backCard from "../images/redCard.svg";
+import curves from "../images/curves.svg";
 
 const Instructions = () => {
   return (
     <div className="w-full h-full flex items-center justify-center px-10">
-      <div className="grid grid-cols-3 gap-28">
+      <div className="grid grid-cols-3 gap-28 relative">
+        <img
+          src={curves}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-100"
+          alt=""
+        />
         <div className="w-[320px] h-[400px] bg-white rounded-3xl relative ">
           <div className="w-full h-fit relative">
             <img
