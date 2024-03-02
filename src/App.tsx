@@ -11,8 +11,9 @@ import banana from "./images/banana.svg";
 import Instructions from "./components/Instructions";
 import playButton from "./images/playButton.svg";
 import Game from "./components/Game";
+import GameComplete from "./components/GameComplete";
 
-type Screen = "intro" | "mizoIntro" | "canYouHelp" | "instructions" | "play";
+type Screen = "intro" | "mizoIntro" | "canYouHelp" | "instructions" | "play" | "complete";
 
 const App: React.FC = () => {
   const [screen, setScreen] = useState<Screen>("intro");
@@ -143,7 +144,7 @@ const App: React.FC = () => {
       case "play":
         return (
           <div className="w-full h-full">
-            <Game />
+            <Game setScreen={setScreen} />
             <button
               className="absolute top-4 left-4 hover:scale-110 transition"
               onClick={() => setScreen("instructions")}
@@ -152,6 +153,12 @@ const App: React.FC = () => {
             </button>
           </div>
         );
+        case "complete":
+          return (
+            <div className="w-full h-full">
+              <GameComplete setScreen={setScreen}/>
+            </div>
+          );
       default:
         return null;
     }
