@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import "./App.css";
 import bg from "./images/bg-svg.svg";
-import bgMonkey from "./images/bg-with-monkey.jpg";
 import monkey from "./images/monkey.svg";
 import cloud from "./images/cloud.svg";
 import buttonSvg from "./images/button.svg";
 import backButton from "./images/back-button.svg";
 import nextButton from "./images/nextButton.svg";
-import banana from "./images/banana.svg";
 import Instructions from "./components/Instructions";
 import playButton from "./images/playButton.svg";
 import Game from "./components/Game";
 import GameComplete from "./components/GameComplete";
 
-type Screen = "intro" | "mizoIntro" | "canYouHelp" | "instructions" | "play" | "complete";
+type Screen =
+  | "intro"
+  | "mizoIntro"
+  | "canYouHelp"
+  | "instructions"
+  | "play"
+  | "complete";
 
 const App: React.FC = () => {
   const [screen, setScreen] = useState<Screen>("intro");
@@ -92,7 +96,7 @@ const App: React.FC = () => {
               <img
                 src={monkey}
                 alt="Monkey"
-                className="translate-y-20 h-[550px] w-[550px]"
+                className="translate-y-20 h-[550px] w-[550px] animate-bounce"
               />
               <img
                 src={cloud}
@@ -123,7 +127,7 @@ const App: React.FC = () => {
         );
       case "instructions":
         return (
-          <div>
+          <div className="w-full h-full">
             <button onClick={() => setScreen("play")}>
               <img
                 src={playButton}
@@ -153,12 +157,12 @@ const App: React.FC = () => {
             </button>
           </div>
         );
-        case "complete":
-          return (
-            <div className="w-full h-full">
-              <GameComplete setScreen={setScreen}/>
-            </div>
-          );
+      case "complete":
+        return (
+          <div className="w-full h-full">
+            <GameComplete setScreen={setScreen} />
+          </div>
+        );
       default:
         return null;
     }

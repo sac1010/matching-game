@@ -32,27 +32,27 @@
 
   @keyframes slideInLeft {
     from {
-      transform: translateX(-100%);
+      transform: translateX(-100%) rotate(0deg);
     }
     to {
-      transform: translateX(0);
+      transform: translateX(0) rotate(-15deg);
     }
   }
 
   @keyframes slideInRight {
     from {
-      transform: translateX(100%);
+      transform: translateX(100%) rotate(0deg);
     }
     to {
       transform: translateX(0);
-      transform: translatey(30%);
+      transform: translatey(30%) rotate(15deg);
     }
   }
   
   .animated-slide-in-left {
-    animation: slideInLeft 0.5s ease-out;
+    animation: slideInLeft 0.5s forwards;
   }
 
   .animated-slide-in-right {
-    animation: slideInRight 0.5s ease-out;
+    animation: slideInRight 0.5s forwards;
   }

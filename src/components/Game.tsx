@@ -30,8 +30,6 @@ const blueCardData = [
   { fruit: "pineapple", icon: "🍍", letter: "P" },
 ];
 
-
-
 const Game = ({ setScreen }: Props) => {
   const [selectedRedCard, setSelectedRedCard] = useState<{
     fruit: string;
@@ -62,7 +60,7 @@ const Game = ({ setScreen }: Props) => {
           setSelectedRedCard(undefined);
           setSelectedBlueCard(undefined);
         } else {
-          if (completed.length === 0) {
+          if (completed.length === 5) {
             setScreen("complete");
             return;
           }
@@ -120,6 +118,7 @@ const Game = ({ setScreen }: Props) => {
             const isCompleted = completed.includes(cardData.fruit);
             return (
               <div
+                key={cardData.fruit}
                 onClick={() => selectRedCard(cardData)}
                 className={`transition transform ${
                   isCompleted ? "invisible" : ""
@@ -150,13 +149,14 @@ const Game = ({ setScreen }: Props) => {
             const isCompleted = completed.includes(cardData.fruit);
             return (
               <div
+                key={cardData.fruit}
                 onClick={() => selectBlueCard(cardData)}
                 className={`transition ${isCompleted ? "invisible" : ""} ${
                   selectedRedCard && !selectedBlueCard ? "hover:scale-110" : ""
                 } card ${selected ? "flipped" : ""}`}
               >
                 {selected ? (
-                  <div className="bg-[#eaada0] border-white border-8 p-4 rounded-md text-green-600 w-[190px] h-[240px] mt-2 flex items-center justify-center text-5xl">
+                  <div className="bg-[#eaada0] border-white border-8 p-4 rounded-md text-green-600 w-[190px] h-[240px] mt-2 flex items-center justify-center text-5xl scale-x-[-1]">
                     {cardData.letter}
                   </div>
                 ) : (

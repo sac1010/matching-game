@@ -19,6 +19,7 @@ const bananaPositions = [
 const GameComplete = ({ setScreen }: Props) => {
   return (
     <div className="w-full h-full flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-black opacity-60"></div>
       <div className="relative">
         <img className="w-[500px]" src={earned} alt="" />
         <img
