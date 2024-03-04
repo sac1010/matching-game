@@ -12,6 +12,7 @@ import Game from "./components/Game";
 import GameComplete from "./components/GameComplete";
 import vol from "./images/volume.svg";
 import stopAudio from "./images/noAudio.svg";
+import sadMonkey from "./images/sad-monkey.svg";
 
 type Screen =
   | "intro"
@@ -19,7 +20,8 @@ type Screen =
   | "canYouHelp"
   | "instructions"
   | "play"
-  | "complete";
+  | "complete"
+  | "gameOver";
 
 const App: React.FC = () => {
   const [screen, setScreen] = useState<Screen>("intro");
@@ -198,6 +200,31 @@ const App: React.FC = () => {
         return (
           <div className="w-full h-full">
             <GameComplete setScreen={setScreen} />
+          </div>
+        );
+      case "gameOver":
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <audio className="hidden" autoPlay src="/audio/death.mp3" />
+            <div className="flex items-center justify-center flex-col">
+              <img
+                className="w-[250px] h-[250px]"
+                src={sadMonkey}
+                alt="monkey"
+              />
+              <div className="text-[90px] text-red-500 font-extrabold">
+                Game Over!
+              </div>
+            </div>
+            <button
+              className="absolute top-4 left-4 hover:scale-110 transition"
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("instructions");
+              }}
+            >
+              <img src={backButton} alt="start" className="w-32 h-32" />
+            </button>
           </div>
         );
       default:

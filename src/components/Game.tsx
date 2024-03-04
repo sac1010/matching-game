@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import blueCard from "../images/blue-card.svg";
 import redCard from "../images/redCard.svg";
 import "./Game.css";
@@ -6,9 +6,10 @@ import Modal from "./Modal";
 import arrowTop from "../images/arrpw-top.svg";
 import arrowBottom from "../images/arrow-bottom.svg";
 import nextButton from "../images/next-button.svg";
-import cloud from "../images/cloud.svg";
 import match from "../images/match.svg";
 import Loader from "./Loader";
+
+
 
 type Props = { setScreen: any };
 
@@ -34,31 +35,40 @@ const Game = ({ setScreen }: Props) => {
   const [selectedRedCard, setSelectedRedCard] = useState<{
     fruit: string;
     icon: string;
-  }>();
+  } | null>();
   const [selectedBlueCard, setSelectedBlueCard] = useState<{
     fruit: string;
     icon: string;
     letter: string;
-  }>();
+  } | null>();
+  const [moves, setMoves] = useState(6);
   const [completed, setCompleted] = useState<string[]>([]);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [isMatched, setIsMatched] = useState<boolean>(false);
   const selectRedCard = (data: { fruit: string; icon: string }) => {
     if (!selectedRedCard) {
+      audioRef?.current?.play();
       setSelectedRedCard(data);
     }
   };
 
-  const selectBlueCard = (data: {
+  const selectBlueCard = async (data: {
     fruit: string;
     icon: string;
     letter: string;
   }) => {
     if (!selectedBlueCard && selectedRedCard) {
+      await audioRef?.current?.play();
       setSelectedBlueCard(data);
+
       setTimeout(() => {
         if (selectedRedCard.fruit !== data.fruit) {
-          setSelectedRedCard(undefined);
-          setSelectedBlueCard(undefined);
+          setSelectedRedCard(null);
+          setSelectedBlueCard(null);
+          setMoves(moves - 1);
+          if (moves === 1 && completed.length !== 5) {
+            setScreen("gameOver");
+          }
         } else {
           if (completed.length === 5) {
             setScreen("complete");
@@ -73,6 +83,7 @@ const Game = ({ setScreen }: Props) => {
   return (
     <div className="w-full h-full flex items-center justify-center relative">
       <Loader bananas={completed.length} />
+      <audio className="hidden" ref={audioRef} src="/audio/select-card.mp3" />
       {isMatched && (
         <div className="fixed inset-0 z-10 flex items-center justify-center">
           <div className="absolute inset-0 bg-black opacity-60"></div>
@@ -166,6 +177,9 @@ const Game = ({ setScreen }: Props) => {
             );
           })}
         </div>
+      </div>
+      <div className="p-3 bg-sky-400 opacity-85 absolute top-4 right-4 text-white rounded-3xl text-2xl font-bold border-white border-4">
+        Wrong Moves Left : {moves}
       </div>
     </div>
   );
