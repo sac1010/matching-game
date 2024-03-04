@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import bg from "./images/bg-svg.svg";
 import monkey from "./images/monkey.svg";
@@ -10,6 +10,8 @@ import Instructions from "./components/Instructions";
 import playButton from "./images/playButton.svg";
 import Game from "./components/Game";
 import GameComplete from "./components/GameComplete";
+import vol from "./images/volume.svg";
+import stopAudio from "./images/noAudio.svg";
 
 type Screen =
   | "intro"
@@ -21,6 +23,9 @@ type Screen =
 
 const App: React.FC = () => {
   const [screen, setScreen] = useState<Screen>("intro");
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const bgAudioRef = useRef<HTMLAudioElement>(null);
 
   const renderScreenContent = () => {
     switch (screen) {
@@ -44,7 +49,12 @@ const App: React.FC = () => {
                 </div>
               </div>
             </div>
-            <button onClick={() => setScreen("mizoIntro")}>
+            <button
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("mizoIntro");
+              }}
+            >
               <img
                 src={buttonSvg}
                 alt="start"
@@ -73,14 +83,24 @@ const App: React.FC = () => {
                 </div>
               </div>
             </div>
-            <button onClick={() => setScreen("canYouHelp")}>
+            <button
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("canYouHelp");
+              }}
+            >
               <img
                 src={nextButton}
                 alt="start"
                 className="absolute bottom-10 right-10 hover:scale-110 transition"
               />
             </button>
-            <button onClick={() => setScreen("intro")}>
+            <button
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("intro");
+              }}
+            >
               <img
                 src={backButton}
                 alt="start"
@@ -109,14 +129,24 @@ const App: React.FC = () => {
                 </div>
               </div>
             </div>
-            <button onClick={() => setScreen("instructions")}>
+            <button
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("instructions");
+              }}
+            >
               <img
                 src={nextButton}
                 alt="start"
                 className="absolute bottom-10 right-10 hover:scale-110 transition"
               />
             </button>
-            <button onClick={() => setScreen("mizoIntro")}>
+            <button
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("mizoIntro");
+              }}
+            >
               <img
                 src={backButton}
                 alt="start"
@@ -128,19 +158,23 @@ const App: React.FC = () => {
       case "instructions":
         return (
           <div className="w-full h-full">
-            <button className="absolute bottom-10 right-10 hover:scale-110 transition" onClick={() => setScreen("play")}>
-              <img
-                src={playButton}
-                alt="start"
-                className=""
-              />
+            <button
+              className="absolute bottom-10 right-10 hover:scale-110 transition"
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("play");
+              }}
+            >
+              <img src={playButton} alt="start" className="" />
             </button>
-            <button className="absolute top-10 left-10 hover:scale-110 transition" onClick={() => setScreen("mizoIntro")}>
-              <img
-                src={backButton}
-                alt="start"
-                
-              />
+            <button
+              className="absolute top-10 left-10 hover:scale-110 transition"
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("mizoIntro");
+              }}
+            >
+              <img src={backButton} alt="start" />
             </button>
             <Instructions />
           </div>
@@ -151,7 +185,10 @@ const App: React.FC = () => {
             <Game setScreen={setScreen} />
             <button
               className="absolute top-4 left-4 hover:scale-110 transition"
-              onClick={() => setScreen("instructions")}
+              onClick={() => {
+                audioRef?.current?.play();
+                setScreen("instructions");
+              }}
             >
               <img src={backButton} alt="start" className="w-32 h-32" />
             </button>
@@ -168,12 +205,32 @@ const App: React.FC = () => {
     }
   };
 
+  const handleToggle = () => {
+    if (bgAudioRef.current) {
+      if (isPlaying) {
+        bgAudioRef.current.pause();
+      } else {
+        bgAudioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <div
       className="bg-cover bg-center h-screen w-full relative"
       style={{ backgroundImage: `url(${bg})` }}
     >
       {renderScreenContent()}
+      <audio className="hidden" ref={audioRef} src="/audio/click.mp3" />
+      <audio className="hidden" ref={bgAudioRef} src="/audio/bgm.mp3" />
+      <button className="fixed left-8 bottom-7" onClick={handleToggle}>
+        {isPlaying ? (
+          <img className="w-16 h-16 opacity-60" src={stopAudio} alt="" />
+        ) : (
+          <img className="w-16 h-16 opacity-60" src={vol} alt="" />
+        )}
+      </button>
     </div>
   );
 };
